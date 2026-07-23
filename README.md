@@ -26,3 +26,12 @@
 5. Build command ปล่อยว่าง
 6. Publish directory ใส่ `.`
 7. กด Deploy site
+
+
+## Premium V2
+- แสดงชุดอาหารที่มีคะแนนนำ
+- แชร์ลิงก์ คัดลอกลิงก์ และสร้าง QR Code
+- หน้า `admin.html` สำหรับสรุปผลแบบ Real-time
+- ดาวน์โหลดผลโหวตเป็น CSV
+- คัดลอกข้อความสรุปผล
+- ใช้ Collection เดิม `votes` ข้อมูลเดิมไม่หาย

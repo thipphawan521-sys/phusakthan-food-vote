@@ -53,7 +53,15 @@ const el = {
   voteSection:document.querySelector("#voteSection"),
   thankYou:document.querySelector("#thankYou"),
   chosenSet:document.querySelector("#chosenSet"),
-  chosenTime:document.querySelector("#chosenTime")
+  chosenTime:document.querySelector("#chosenTime"),
+  winnerCard:document.querySelector("#winnerCard"),
+  winnerName:document.querySelector("#winnerName"),
+  shareButton:document.querySelector("#shareButton"),
+  copyButton:document.querySelector("#copyButton"),
+  qrButton:document.querySelector("#qrButton"),
+  qrModal:document.querySelector("#qrModal"),
+  qrCode:document.querySelector("#qrCode"),
+  closeQr:document.querySelector("#closeQr")
 };
 
 const state = { user:null, selected:null, votes:[], closed:false };
@@ -111,6 +119,15 @@ function renderResults(){
       <div class="track"><div class="bar" style="width:${percent}%"></div></div>
     </div>`;
   }).join("");
+
+  if(total>0){
+    const maxVotes=Math.max(...Object.values(counts));
+    const leaders=SETS.filter(set=>counts[set.id]===maxVotes).map(set=>set.name);
+    el.winnerName.textContent=leaders.length===1?leaders[0]:`คะแนนเสมอ ${leaders.join(" / ")}`;
+    el.winnerCard.classList.remove("hidden");
+  }else{
+    el.winnerCard.classList.add("hidden");
+  }
 }
 
 function startCountdown(){
@@ -136,7 +153,7 @@ function startCountdown(){
 function listenVotes(){
   onSnapshot(collection(db,"votes"),snapshot=>{
     state.votes=snapshot.docs.map(d=>({id:d.id,...d.data()}));
-    setTimeout(renderResults,3000);
+    renderResults();
   },error=>{
     console.error(error);
     showToast("อ่านผลโหวตไม่ได้ กรุณาตรวจสอบ Firestore Rules");
@@ -202,6 +219,55 @@ el.form.addEventListener("submit",async e=>{
     el.submit.disabled=false;
     el.submit.textContent="ยืนยันการโหวต";
   }
+});
+
+
+async function shareVoteLink(){
+  const shareData={
+    title:"โหวตชุดอาหาร โรงแรมภูสักธาร",
+    text:"ร่วมโหวตเลือกชุดอาหารสำหรับงานเลี้ยง",
+    url:window.location.origin
+  };
+  try{
+    if(navigator.share){
+      await navigator.share(shareData);
+    }else{
+      await navigator.clipboard.writeText(shareData.url);
+      showToast("คัดลอกลิงก์แล้ว");
+    }
+  }catch(error){
+    if(error?.name!=="AbortError") console.error(error);
+  }
+}
+
+async function copyVoteLink(){
+  try{
+    await navigator.clipboard.writeText(window.location.origin);
+    showToast("คัดลอกลิงก์แล้ว");
+  }catch(error){
+    showToast("คัดลอกไม่ได้ กรุณาคัดลอกจากแถบที่อยู่");
+  }
+}
+
+function showQrCode(){
+  el.qrCode.innerHTML="";
+  new QRCode(el.qrCode,{
+    text:window.location.origin,
+    width:210,
+    height:210,
+    colorDark:"#432d24",
+    colorLight:"#fffaf0",
+    correctLevel:QRCode.CorrectLevel.H
+  });
+  el.qrModal.classList.remove("hidden");
+}
+
+el.shareButton?.addEventListener("click",shareVoteLink);
+el.copyButton?.addEventListener("click",copyVoteLink);
+el.qrButton?.addEventListener("click",showQrCode);
+el.closeQr?.addEventListener("click",()=>el.qrModal.classList.add("hidden"));
+el.qrModal?.addEventListener("click",event=>{
+  if(event.target===el.qrModal) el.qrModal.classList.add("hidden");
 });
 
 async function init(){

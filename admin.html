@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f59e42">
+  <title>สรุปผลโหวต | โรงแรมภูสักธาร</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+  <main class="admin-shell">
+    <header class="admin-hero">
+      <a href="./index.html">← กลับหน้าโหวต</a>
+      <p class="eyebrow">ADMIN SUMMARY</p>
+      <h1>สรุปผลโหวต</h1>
+      <p>โรงแรมภูสักธาร</p>
+    </header>
+
+    <section class="admin-total glass">
+      <span>จำนวนผู้โหวตทั้งหมด</span>
+      <strong id="adminTotal">0</strong>
+      <small>ข้อมูลอัปเดตแบบ Real-time</small>
+    </section>
+
+    <section id="adminResults" class="admin-results"></section>
+
+    <section class="admin-actions">
+      <button id="exportCsv" type="button">ดาวน์โหลดผลโหวต CSV</button>
+      <button id="copySummary" type="button">คัดลอกข้อความสรุป</button>
+    </section>
+
+    <section class="admin-table-wrap">
+      <h2>รายการโหวต</h2>
+      <div class="admin-table-scroll">
+        <table>
+          <thead><tr><th>ลำดับ</th><th>ชุดอาหาร</th><th>เวลาโหวต</th></tr></thead>
+          <tbody id="voteRows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script type="module" src="./admin.js"></script>
+</body>
+</html>

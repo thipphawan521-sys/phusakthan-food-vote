@@ -86,3 +86,43 @@ h1{margin:0;font-size:clamp(36px,10vw,56px);color:#fff9c8;text-shadow:3px 4px 0 
 .loading.hide{opacity:0;visibility:hidden}
 @media(min-width:680px){.menu-grid{grid-template-columns:1fr 1fr}.menu-card{min-height:545px}}
 @media(max-width:430px){.countdown-card{flex-direction:column;align-items:stretch}.countdown{width:100%}}
+
+
+/* Premium V2 */
+.winner-card{
+  display:flex;align-items:center;gap:12px;margin-top:18px;padding:13px 15px;
+  border-radius:18px;background:linear-gradient(135deg,rgba(255,240,133,.24),rgba(255,125,80,.16));
+  border:1px solid rgba(255,244,166,.35)
+}
+.winner-icon{font-size:30px}
+.winner-card span{display:block;font-size:11px;opacity:.72}
+.winner-card strong{display:block;color:#fff4a4;font-size:18px}
+.share-actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:22px}
+.share-actions button{
+  border:0;border-radius:16px;padding:12px 10px;font-weight:800;color:#68331f;
+  background:linear-gradient(135deg,#fff1a0,#ffb347);box-shadow:0 10px 22px rgba(108,43,24,.14)
+}
+.share-actions button:last-child{grid-column:1/-1}
+.admin-link-card{
+  margin-top:18px;text-align:center;padding:14px;border-radius:18px;
+  background:rgba(255,255,255,.16);backdrop-filter:blur(12px)
+}
+.admin-link-card a{color:#fff9ce;font-weight:700;text-decoration:none}
+.modal{
+  position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:20px;
+  background:rgba(59,28,21,.68);backdrop-filter:blur(9px)
+}
+.modal-card{
+  position:relative;width:min(100%,360px);padding:26px;text-align:center;border-radius:28px;
+  color:var(--ink);background:linear-gradient(145deg,#fffaf0,#f8e8cb);
+  box-shadow:0 30px 80px rgba(0,0,0,.3)
+}
+.modal-card h3{margin:0 0 18px}
+.modal-card p{margin:15px 0 0;color:var(--muted)}
+.modal-close{
+  position:absolute;right:12px;top:10px;width:38px;height:38px;border:0;border-radius:50%;
+  font-size:25px;color:#6c3a28;background:rgba(255,255,255,.65)
+}
+#qrCode{display:flex;justify-content:center}
+#qrCode img,#qrCode canvas{border-radius:12px}
+@media(max-width:430px){.share-actions{grid-template-columns:1fr}.share-actions button:last-child{grid-column:auto}}

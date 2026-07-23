@@ -48,8 +48,16 @@
         </div>
       </div>
 
+      <div id="winnerCard" class="winner-card hidden">
+        <span class="winner-icon">🏆</span>
+        <div>
+          <span>คะแนนนำขณะนี้</span>
+          <strong id="winnerName">—</strong>
+        </div>
+      </div>
+
       <div id="results" class="results"></div>
-      <p class="refresh-note">อัปเดตข้อมูลอัตโนมัติทุก 3 วินาที</p>
+      <p class="refresh-note">ผลคะแนนอัปเดตแบบ Real-time</p>
     </section>
 
     <section id="voteSection" class="vote-section">
@@ -74,9 +82,29 @@
       </div>
       <div class="stamp">บันทึกโหวตแล้ว</div>
       <p class="locked">คำตอบถูกล็อกและไม่สามารถเปลี่ยนแปลงได้</p>
+
+      <div class="share-actions">
+        <button id="shareButton" type="button">แชร์ลิงก์โหวต</button>
+        <button id="copyButton" type="button">คัดลอกลิงก์</button>
+        <button id="qrButton" type="button">แสดง QR Code</button>
+      </div>
+    </section>
+
+    <section class="admin-link-card">
+      <a href="./admin.html">เปิดหน้าสรุปผลสำหรับผู้จัดงาน →</a>
     </section>
   </main>
 
+  <div id="qrModal" class="modal hidden">
+    <div class="modal-card">
+      <button id="closeQr" class="modal-close" type="button">×</button>
+      <h3>สแกนเพื่อเข้าโหวต</h3>
+      <div id="qrCode"></div>
+      <p>โรงแรมภูสักธาร</p>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
   <script type="module" src="./app.js"></script>
 </body>
 </html>
