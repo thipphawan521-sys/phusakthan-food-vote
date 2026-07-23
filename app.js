@@ -2,7 +2,7 @@ import {
   db, ensureUser, collection, doc, getDoc, setDoc, onSnapshot, serverTimestamp
 } from "./firebase.js";
 
-const CLOSES_AT = "2026-07-24T14:00:00+07:00";
+const CLOSES_AT = null;
 
 const SETS = [
   {
@@ -64,7 +64,7 @@ const el = {
   closeQr:document.querySelector("#closeQr")
 };
 
-const state = { user:null, selected:null, votes:[], closed:false };
+const state = { user:null, selected:null, votes:[], closed:false, votingOpen:true };
 
 function showToast(message){
   el.toast.textContent=message;
@@ -131,23 +131,7 @@ function renderResults(){
 }
 
 function startCountdown(){
-  const closeTime=new Date(CLOSES_AT).getTime();
-  const update=()=>{
-    const diff=closeTime-Date.now();
-    state.closed=diff<=0;
-    if(state.closed){
-      el.countdown.textContent="ปิดรับโหวตแล้ว";
-      el.submit.disabled=true;
-      return;
-    }
-    const d=Math.floor(diff/86400000);
-    const h=Math.floor((diff%86400000)/3600000);
-    const m=Math.floor((diff%3600000)/60000);
-    const s=Math.floor((diff%60000)/1000);
-    el.countdown.textContent=`${d} วัน ${String(h).padStart(2,"0")}:${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")}`;
-  };
-  update();
-  setInterval(update,1000);
+  el.countdown.textContent = "กำลังตรวจสอบสถานะ…";
 }
 
 function listenVotes(){
@@ -157,6 +141,18 @@ function listenVotes(){
   },error=>{
     console.error(error);
     showToast("อ่านผลโหวตไม่ได้ กรุณาตรวจสอบ Firestore Rules");
+  });
+}
+
+function listenVoteStatus(){
+  onSnapshot(doc(db,"settings","vote"),snapshot=>{
+    state.votingOpen = snapshot.exists() ? snapshot.data().isOpen !== false : true;
+    state.closed = !state.votingOpen;
+    el.countdown.textContent = state.votingOpen ? "เปิดรับโหวตอยู่" : "ปิดรับโหวตแล้ว";
+    el.submit.disabled = !state.votingOpen;
+  },error=>{
+    console.error(error);
+    el.countdown.textContent = "ไม่สามารถตรวจสอบสถานะได้";
   });
 }
 
@@ -279,6 +275,7 @@ async function init(){
     state.user=await ensureUser();
     const old=await existingVote();
     listenVotes();
+  listenVoteStatus();
     if(old) showThankYou(old);
   }catch(error){
     console.error(error);

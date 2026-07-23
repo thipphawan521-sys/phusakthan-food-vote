@@ -41,6 +41,67 @@
         <button id="logoutButton" class="ghost" type="button">ออกจากระบบ</button>
       </header>
 
+      <section class="theme-card">
+        <div class="section-heading">
+          <div>
+            <p class="eyebrow">WEBSITE THEME</p>
+            <h2>เปลี่ยนสีเว็บไซต์</h2>
+            <p>เลือกธีมสำเร็จรูป หรือกำหนดสีเอง แล้วกดบันทึก</p>
+          </div>
+          <span id="themeSavedBadge" class="saved-badge hidden">บันทึกแล้ว</span>
+        </div>
+
+        <div id="themePresets" class="theme-presets">
+          <button type="button" class="theme-preset" data-theme="sunset">
+            <span class="theme-dots"><i style="background:#ff8a3d"></i><i style="background:#ff6756"></i><i style="background:#ffe57e"></i></span>
+            <strong>Sunset</strong><small>ส้มพาสเทล</small>
+          </button>
+          <button type="button" class="theme-preset" data-theme="nature">
+            <span class="theme-dots"><i style="background:#4f8a57"></i><i style="background:#7aaa61"></i><i style="background:#f3d889"></i></span>
+            <strong>Nature</strong><small>เขียวธรรมชาติ</small>
+          </button>
+          <button type="button" class="theme-preset" data-theme="ocean">
+            <span class="theme-dots"><i style="background:#2486b9"></i><i style="background:#45b7c9"></i><i style="background:#ffd56b"></i></span>
+            <strong>Ocean</strong><small>ฟ้าสดใส</small>
+          </button>
+          <button type="button" class="theme-preset" data-theme="royal">
+            <span class="theme-dots"><i style="background:#7450a8"></i><i style="background:#a166b3"></i><i style="background:#f2c66d"></i></span>
+            <strong>Royal</strong><small>ม่วงพรีเมียม</small>
+          </button>
+          <button type="button" class="theme-preset" data-theme="rose">
+            <span class="theme-dots"><i style="background:#d95e7d"></i><i style="background:#f08a9e"></i><i style="background:#ffd2a6"></i></span>
+            <strong>Rose</strong><small>ชมพูหวาน</small>
+          </button>
+          <button type="button" class="theme-preset" data-theme="luxury">
+            <span class="theme-dots"><i style="background:#8f6b32"></i><i style="background:#c59b49"></i><i style="background:#f3dd9b"></i></span>
+            <strong>Luxury</strong><small>ทองโรงแรม</small>
+          </button>
+        </div>
+
+        <div class="color-grid">
+          <label>สีหลัก<input id="themePrimary" type="color" value="#ff8a3d"></label>
+          <label>สีรอง<input id="themeSecondary" type="color" value="#ff6756"></label>
+          <label>สีเน้น<input id="themeAccent" type="color" value="#ffe57e"></label>
+          <label>สีพื้นหลัง<input id="themeBackground" type="color" value="#fff8e9"></label>
+          <label>สีข้อความ<input id="themeText" type="color" value="#573124"></label>
+          <label>สีการ์ด<input id="themeCard" type="color" value="#fffdf6"></label>
+        </div>
+
+        <div id="themePreview" class="theme-preview">
+          <div class="preview-top">
+            <span>ตัวอย่างเว็บไซต์</span>
+            <strong>โรงแรมภูสักธาร</strong>
+          </div>
+          <div class="preview-card">
+            <strong>ชุดอาหารที่ 1</strong>
+            <div class="preview-bar"><i></i></div>
+            <button type="button" tabindex="-1">ยืนยันการโหวต</button>
+          </div>
+        </div>
+
+        <button id="saveThemeButton" type="button" class="save-theme-button">บันทึกสีเว็บไซต์</button>
+      </section>
+
       <section class="status-card">
         <div>
           <span>สถานะการโหวต</span>

@@ -2,7 +2,7 @@ import { db } from "./firebase.js";
 import {
   doc,
   onSnapshot
-} from "https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const style = document.createElement("style");
 style.textContent = `

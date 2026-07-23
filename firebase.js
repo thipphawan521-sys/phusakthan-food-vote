@@ -44,4 +44,4 @@ async function ensureUser() {
   });
 }
 
-export { db, ensureUser, collection, doc, getDoc, setDoc, onSnapshot, serverTimestamp };
+export { auth, db, ensureUser, collection, doc, getDoc, setDoc, onSnapshot, serverTimestamp };
