@@ -1,29 +1,24 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-
-    // สำคัญ: เปลี่ยนข้อความด้านล่างเป็น UID ของบัญชี Admin จริง
     function isAdmin() {
       return request.auth != null
         && request.auth.uid == "REPLACE_WITH_ADMIN_UID";
     }
 
     match /votes/{voteId} {
-      // หน้าโหวตและ Dashboard อ่านผลได้
       allow read: if true;
-
-      // ผู้ใช้ที่ผ่าน Anonymous Authentication สามารถส่งผลโหวตได้
       allow create: if request.auth != null;
-
-      // แก้ไขและลบผลโหวตได้เฉพาะ Admin
       allow update, delete: if isAdmin();
     }
 
     match /settings/vote {
-      // ทุกคนอ่านสถานะเปิด/ปิดได้
       allow read: if true;
+      allow create, update, delete: if isAdmin();
+    }
 
-      // เฉพาะ Admin เปลี่ยนสถานะได้
+    match /settings/theme {
+      allow read: if true;
       allow create, update, delete: if isAdmin();
     }
   }
