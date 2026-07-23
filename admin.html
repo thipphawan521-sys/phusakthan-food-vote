@@ -4,45 +4,107 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#f59e42">
-  <title>สรุปผลโหวต | โรงแรมภูสักธาร</title>
+  <title>Admin | ระบบโหวตโรงแรมภูสักธาร</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./admin.css">
 </head>
 <body>
-  <main class="admin-shell">
-    <header class="admin-hero">
-      <a href="./index.html">← กลับหน้าโหวต</a>
-      <p class="eyebrow">ADMIN SUMMARY</p>
-      <h1>สรุปผลโหวต</h1>
-      <p>โรงแรมภูสักธาร</p>
-    </header>
+  <main class="shell">
+    <section id="loginView" class="login-card">
+      <div class="logo">🔐</div>
+      <p class="eyebrow">ADMIN ACCESS</p>
+      <h1>เข้าสู่ระบบผู้จัดงาน</h1>
+      <p class="muted">ใช้บัญชีผู้ดูแลที่สร้างไว้ใน Firebase Authentication</p>
 
-    <section class="admin-total glass">
-      <span>จำนวนผู้โหวตทั้งหมด</span>
-      <strong id="adminTotal">0</strong>
-      <small>ข้อมูลอัปเดตแบบ Real-time</small>
+      <form id="loginForm">
+        <label>อีเมลผู้ดูแล
+          <input id="email" type="email" autocomplete="username" required placeholder="admin@example.com">
+        </label>
+        <label>รหัสผ่าน
+          <input id="password" type="password" autocomplete="current-password" required placeholder="••••••••">
+        </label>
+        <button id="loginButton" type="submit">เข้าสู่ระบบ</button>
+      </form>
+      <p id="loginError" class="error"></p>
+      <a class="back-link" href="./index.html">← กลับหน้าโหวต</a>
     </section>
 
-    <section id="adminResults" class="admin-results"></section>
+    <section id="dashboardView" class="hidden">
+      <header class="hero">
+        <div>
+          <p class="eyebrow">PHUSAKTHAN ADMIN</p>
+          <h1>สรุปผลโหวต</h1>
+          <p>โรงแรมภูสักธาร</p>
+        </div>
+        <button id="logoutButton" class="ghost" type="button">ออกจากระบบ</button>
+      </header>
 
-    <section class="admin-actions">
-      <button id="exportCsv" type="button">ดาวน์โหลดผลโหวต CSV</button>
-      <button id="copySummary" type="button">คัดลอกข้อความสรุป</button>
-    </section>
+      <section class="status-card">
+        <div>
+          <span>สถานะการโหวต</span>
+          <strong id="voteStatusText">กำลังตรวจสอบ…</strong>
+        </div>
+        <button id="toggleVoteButton" type="button">เปิด/ปิดการโหวต</button>
+      </section>
 
-    <section class="admin-table-wrap">
-      <h2>รายการโหวต</h2>
-      <div class="admin-table-scroll">
-        <table>
-          <thead><tr><th>ลำดับ</th><th>ชุดอาหาร</th><th>เวลาโหวต</th></tr></thead>
-          <tbody id="voteRows"></tbody>
-        </table>
-      </div>
+      <section class="total-card">
+        <span>ผู้โหวตทั้งหมด</span>
+        <strong id="totalVotes">0</strong>
+        <small>อัปเดตแบบ Real-time</small>
+      </section>
+
+      <section id="winnerCard" class="winner-card hidden">
+        <span>🏆</span>
+        <div>
+          <small>คะแนนนำขณะนี้</small>
+          <strong id="winnerName">—</strong>
+        </div>
+      </section>
+
+      <section id="resultCards" class="results"></section>
+
+      <section class="actions">
+        <button id="exportCsvButton" type="button">ดาวน์โหลด CSV</button>
+        <button id="copySummaryButton" type="button">คัดลอกสรุป</button>
+        <button id="printButton" type="button">พิมพ์ / บันทึก PDF</button>
+        <button id="resetButton" class="danger" type="button">ล้างผลโหวตทั้งหมด</button>
+      </section>
+
+      <section class="table-card">
+        <div class="table-title">
+          <h2>รายการโหวตล่าสุด</h2>
+          <span id="lastUpdated">—</span>
+        </div>
+        <div class="table-scroll">
+          <table>
+            <thead>
+              <tr><th>ลำดับ</th><th>ชุดอาหาร</th><th>เวลาที่โหวต</th></tr>
+            </thead>
+            <tbody id="voteRows"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <a class="back-link dashboard-back" href="./index.html">← กลับหน้าโหวต</a>
     </section>
   </main>
+
+  <dialog id="confirmDialog">
+    <form method="dialog" class="dialog-card">
+      <div class="warning-icon">⚠️</div>
+      <h2>ยืนยันการล้างผลโหวต</h2>
+      <p>ข้อมูลการโหวตทั้งหมดจะถูกลบและไม่สามารถกู้คืนได้</p>
+      <label>พิมพ์คำว่า <strong>ล้างผลโหวต</strong>
+        <input id="confirmText" type="text" autocomplete="off">
+      </label>
+      <div class="dialog-actions">
+        <button value="cancel" class="ghost" type="submit">ยกเลิก</button>
+        <button id="confirmResetButton" value="default" class="danger" type="button" disabled>ยืนยันลบทั้งหมด</button>
+      </div>
+    </form>
+  </dialog>
 
   <div id="toast" class="toast"></div>
   <script type="module" src="./admin.js"></script>
